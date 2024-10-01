@@ -7,20 +7,25 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import edu.example.dam2024.R
+import edu.example.dam2024.features.movies.data.local.MovieXmlLocalDataSource
 import edu.example.dam2024.features.movies.domain.Movie
 
-class MovieActivity : AppCompatActivity() {
+class MoviesActivity : AppCompatActivity() {
 
-    private val moviewFactory: MovieFactory = MovieFactory()
-    private val viewModel = moviewFactory.buildViewModel()
+    private lateinit var movieFactory: MovieFactory
+    private lateinit var viewModel: MoviesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_movies)
+
+        movieFactory = MovieFactory(this)
+        viewModel = movieFactory.buildViewModel()
+
         val movies = viewModel.viewCreated()
         bindData(movies)
-        //Log.d("@dev", movies.toString())
+
         }
 
     private fun bindData(movies: List<Movie>){
@@ -41,6 +46,22 @@ class MovieActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.movie_id_4).text = movies[3].id
         findViewById<TextView>(R.id.movie_tittle_4).text = movies[3].tittle
+    }
+
+    private fun testListXml(){
+        val movies = viewModel.viewCreated()
+        val xmlDataSource = MovieXmlLocalDataSource(this)
+        xmlDataSource.saveAll(movies)
+
+        val moviesFromXml = xmlDataSource.findAll()
+        Log.d("@dev", moviesFromXml.toString())
+    }
+
+    private fun testMovie(){
+        val movies = viewModel.viewCreated()
+        val xmlDataSource = MovieXmlLocalDataSource(this)
+        val movie = xmlDataSource.findById("1")
+        Log.d("@dev", "$movie")
     }
 
 

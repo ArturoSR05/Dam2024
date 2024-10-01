@@ -14,8 +14,8 @@ class SuperheroMockDataSource {
         return superheroes
     }
 
-    fun getSuperheroe(superheroeId: String): Superhero? {
-        return superheroes.firstOrNull()
+    fun getSuperheroe(superheroId: String): Superhero? {
+        return superheroes.firstOrNull { superhero -> superhero.id == superheroId }
     }
 
 
