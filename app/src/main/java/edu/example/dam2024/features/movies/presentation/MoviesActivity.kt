@@ -48,33 +48,9 @@ class MoviesActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.movie_tittle_4).text = movies[3].tittle
     }
 
-    private fun testListXml(){
-        val movies = viewModel.viewCreated()
-        val xmlDataSource = MovieXmlLocalDataSource(this)
-        xmlDataSource.saveAll(movies)
 
-        val moviesFromXml = xmlDataSource.findAll()
-        Log.d("@dev", moviesFromXml.toString())
-    }
-
-    private fun testMovie(){
-        val movies = viewModel.viewCreated()
-        val xmlDataSource = MovieXmlLocalDataSource(this)
-        val movie = xmlDataSource.findById("1")
-        Log.d("@dev", "$movie")
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onStop() {
-        super.onStop()
+    private fun navigateToMovieDetail(movieId: String){
+        startActivity(MovieDetailActivity.getIntent(this, movieId))
     }
 
 }
